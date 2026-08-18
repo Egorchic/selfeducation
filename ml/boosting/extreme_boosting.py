@@ -63,7 +63,7 @@ def lr_experiments(lr: float):
 def n_estimators_experiments(n: int):
     model = XGBRegressor(
         n_estimators=n,
-        learning_rate=0.01,
+        learning_rate=0.003,
         max_depth=5,
         subsample=1.0,
         colsample_bytree=1.0,
@@ -93,7 +93,7 @@ def n_estimators_experiments(n: int):
     plt.title(f'Train and val RMSE loss comp, n={n}')
     plt.legend()
     plt.grid(True)
-    plt.savefig(f'n_estimators_choosing/with_lr_001/losses_comp_{n}.png')
+    plt.savefig(f'n_estimators_choosing/with_lr_0003/losses_comp_{n}.png')
 
 
 
@@ -101,7 +101,7 @@ def n_estimators_experiments(n: int):
 #for x in lrs:
 #    lr_experiments(x)
 
-n_estimators = [1500, 1750, 2000, 2250]
+n_estimators = [2000, 2500, 3000, 3500, 4000]
 for x in n_estimators:
     n_estimators_experiments(x)
 

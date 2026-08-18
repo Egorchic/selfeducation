@@ -25,27 +25,38 @@ colsample_bytree = 1.0
 
 ## Сравнение разных n_estimators
 
-Следующие графики приведены при learning_rate=0.003
+Следующие 6 графиков приведены при learning_rate=0.003
 
 ![losses_png](n_estimators_choosing/with_lr_0003/losses_comp_1500.png)
 
-![losses_png](n_estimators_choosing/with_lr_0003/losses_comp_1750.png)
-
 ![losses_png](n_estimators_choosing/with_lr_0003/losses_comp_2000.png)
 
-![losses_png](n_estimators_choosing/with_lr_0003/losses_comp_2250.png)
+![losses_png](n_estimators_choosing/with_lr_0003/losses_comp_2500.png)
 
-Видно, что значение 0.003 слишком мало, так как увеличивая дальше кол-во деревьев, скорее всего будет ждать переобучение.
+![losses_png](n_estimators_choosing/with_lr_0003/losses_comp_3000.png)
 
-Слудеющие графики приведены при learning_rate=0.01
+![losses_png](n_estimators_choosing/with_lr_0003/losses_comp_3500.png)
+
+![losses_png](n_estimators_choosing/with_lr_0003/losses_comp_4000.png)
+
+Следующие 6 графиков приведены при learning_rate=0.01
 
 ![losses_png](n_estimators_choosing/with_lr_001/losses_comp_1500.png)
 
-![losses_png](n_estimators_choosing/with_lr_001/losses_comp_1750.png)
-
 ![losses_png](n_estimators_choosing/with_lr_001/losses_comp_2000.png)
 
-![losses_png](n_estimators_choosing/with_lr_001/losses_comp_2250.png)
+![losses_png](n_estimators_choosing/with_lr_001/losses_comp_2500.png)
 
-Так как все графики почти что одинаковы, решено выбрать n_estimators=1500, чтобы не усложнять лишний раз модель и попытаться исбежать переобучения в дальнейшем.
-Причем заметно что loss упал по сравнению с learning_rate=0.003
+![losses_png](n_estimators_choosing/with_lr_001/losses_comp_3000.png)
+
+![losses_png](n_estimators_choosing/with_lr_001/losses_comp_3500.png)
+
+![losses_png](n_estimators_choosing/with_lr_001/losses_comp_4000.png)
+
+Для 0.003 после 2500 деревьев val_los остается в окрестности 0.5.
+
+Для 0.01 после 1500 деревьев val_los остается чуть меньше 0.5 и стагнирует.
+
+Можно сделать выводы, что для learning_rate=0.01 оптимальное количество деревьев равно 1500, так как дальше наблюдается переобучение, а использование learning_rate=0.003 нецелесообразно, так как даже при даже экстримельных значениях количества деревьев loss оказывается хуже, чем при learning_rate=0.01
+
+Решено выбрать learning_rate=0.01 и n_estimators=1500
