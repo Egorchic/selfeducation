@@ -1,6 +1,7 @@
 from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import train_test_split
 from xgboost import XGBRegressor
+from sklearn.metrics import mean_squared_error, r2_score
 import matplotlib.pyplot as plt
 
 
@@ -95,16 +96,75 @@ def n_estimators_experiments(n: int):
     plt.grid(True)
     plt.savefig(f'n_estimators_choosing/with_lr_0003/losses_comp_{n}.png')
 
+def max_depth_experiments(n: int, color: str):
+    model = XGBRegressor(
+        n_estimators=2000,
+        learning_rate=0.01,
+        max_depth=5,
+        subsample=1.0,
+        colsample_bytree=1.0,
+        random_state=42,
+    )
 
+    model.fit(
+        X_train,
+        y_train,
+        eval_set=[
+            (X_train, y_train),
+            (X_val, y_val)
+        ],
+        verbose=False
+    )
+
+    eval_res = model.evals_result()
+
+    #train_los = eval_res['validation_0']['rmse']
+    val_los = eval_res['validation_1']['rmse']
+
+
+    #plt.figure()
+    #plt.plot(list(range(4000)), train_los, 'b', label='Train RMSE loss')
+    plt.plot(list(range(4000)), val_los, color, label=f'max_depth={n}')
+
+    plt.title(f'Train and val RMSE loss comp n=3 and 5')
+    plt.legend()
+    plt.grid(True)
+    plt.savefig(f'max_depth/with_lr_001/losses_comp35.png')
 
 #lrs = [0.3, 0.1, 0.003, 0.01]
 #for x in lrs:
 #    lr_experiments(x)
 
-n_estimators = [2000, 2500, 3000, 3500, 4000]
-for x in n_estimators:
-    n_estimators_experiments(x)
+#n_estimators = [2000, 2500, 3000, 3500, 4000]
+#for x in n_estimators:
+#    n_estimators_experiments(x)
 
+# max_depths = [3, 5, 7, 9, 11]
+# for x in max_depths:
+#     max_depth_experiments(x)
+
+model = XGBRegressor(
+        n_estimators=2000,
+        learning_rate=0.01,
+        max_depth=5,
+        subsample=1.0,
+        colsample_bytree=1.0,
+        random_state=42,
+    )
+
+model.fit(
+    X_train,
+    y_train,
+    eval_set=[
+        (X_train, y_train),
+        (X_val, y_val)
+    ],
+    verbose=False
+)
+
+pred = model.predict(X_test)
+
+print(f'MSE: {mean_squared_error(pred, y_test)}\nR2: {r2_score(pred, y_test)}')
 
 
 
