@@ -22,3 +22,30 @@ colsample_bytree = 1.0
 При learning_rate=0.1 переобучение выражено слабее: validation RMSE постепенно выходит на плато, тогда как train RMSE продолжает снижаться.
 
 При learning_rate=0.01 и 0.003 обе метрики к 1500-й итерации всё ещё уменьшаются, поэтому для этих значений необходимо увеличить число деревьев, прежде чем сравнивать их минимальный validation RMSE.
+
+## Сравнение разных n_estimators
+
+Следующие графики приведены при learning_rate=0.003
+
+![losses_png](n_estimators_choosing/with_lr_0003/losses_comp_1500.png)
+
+![losses_png](n_estimators_choosing/with_lr_0003/losses_comp_1750.png)
+
+![losses_png](n_estimators_choosing/with_lr_0003/losses_comp_2000.png)
+
+![losses_png](n_estimators_choosing/with_lr_0003/losses_comp_2250.png)
+
+Видно, что значение 0.003 слишком мало, так как увеличивая дальше кол-во деревьев, скорее всего будет ждать переобучение.
+
+Слудеющие графики приведены при learning_rate=0.01
+
+![losses_png](n_estimators_choosing/with_lr_001/losses_comp_1500.png)
+
+![losses_png](n_estimators_choosing/with_lr_001/losses_comp_1750.png)
+
+![losses_png](n_estimators_choosing/with_lr_001/losses_comp_2000.png)
+
+![losses_png](n_estimators_choosing/with_lr_001/losses_comp_2250.png)
+
+Так как все графики почти что одинаковы, решено выбрать n_estimators=1500, чтобы не усложнять лишний раз модель и попытаться исбежать переобучения в дальнейшем.
+Причем заметно что loss упал по сравнению с learning_rate=0.003
